@@ -11,6 +11,7 @@ export default {
       'sans': ['Inter', 'system-ui','Avenir', 'Helvetica', 'Arial', 'sans-serif'],
     },
     fontSize: {
+      'base': '1rem',
       '3xl': '2.5rem',
     },
     container: {
