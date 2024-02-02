@@ -15,22 +15,20 @@ const Task: FC<TaskProps> = ({
     }
 }): JSX.Element => {
   return (
-    <div className='group mb-4 cursor-pointer rounded-md p-4 bg-white ring-1 ring-slate-200 shadow-sm'>
-        <dl className='grid sm:block lg:grid xl:block grid-cols-2 grid-rows-2 items-center'>
+    <div className='mb-4 rounded-md p-4 bg-white ring-1 ring-slate-200 shadow-sm'>
+        <div className='flex flex-col'>
             <div>
-                <dt className='sr-only'>title</dt>
-                <dd className='text-xl font-semibold text-slate-900'>{title}</dd>
+                <h3>{title}</h3>
             </div>
             <div className='m-3'>
-                <dt className='sr-only'>description</dt>
-                <dd>{description}</dd>
+                <p>{description}</p>
             </div>
-            <div className='mb-3'>
-                <dt className='sr-only text-slate-500'>created</dt>
-                <dd className='text-slate-500'>{created}</dd>
+            <div className='mb-2'>
+                <span className='text-slate-500'>{created}</span>
             </div>
-        </dl>
-        <div className='w-full h-px bg-gray-200 my-7'></div>
+        </div>
+        <div className='w-full h-px bg-gray-200 my-4'></div>
+
         <div className='flex flex-wrap justify-around'>
             <button className='btn btn--secondary basis-1/4'>Edit</button>
             <button className='btn btn--secondary basis-1/4'>Remove</button>
