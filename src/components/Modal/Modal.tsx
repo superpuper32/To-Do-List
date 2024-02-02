@@ -21,7 +21,7 @@ const Header: FC<HeaderProps> = ({
 );
 
 type BodyProps = {
-    children: ReactNode
+    children: ReactNode;
 };
 
 const Body: FC<BodyProps> = ({
@@ -29,7 +29,7 @@ const Body: FC<BodyProps> = ({
 }) => (<div className="modal--body">{children}</div>);
 
 type FooterProps = {
-    children: ReactNode
+    children: ReactNode;
 };
 
 const Footer: FC<FooterProps> = ({
@@ -37,8 +37,7 @@ const Footer: FC<FooterProps> = ({
 }) => (<div className="modal--footer">{children}</div>);
 
 interface ModalProps {
-    children: ReactNode
-    hideModal: () => void
+    children: ReactNode;
 }
 
 class Modal extends Component<ModalProps> {
@@ -60,7 +59,7 @@ class Modal extends Component<ModalProps> {
                 </div>
             </div>
         </>
-    )
+    );
   }
 }
 

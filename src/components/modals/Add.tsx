@@ -1,39 +1,44 @@
-import React, { useEffect, useRef } from 'react'
-import { useFormik } from 'formik'
+import React, { useEffect, useRef } from 'react';
+import { useFormik } from 'formik';
 import _ from 'lodash';
+import { toast } from 'react-toastify';
 
-import Modal from '../Modal/Modal'
-import './input.scss'
+import Modal from '../Modal/Modal';
+import './input.scss';
 
-import { TTask, TComponentProps } from '../../types'
+import { TTask, TComponentProps } from '../../types';
 import { addTask } from '../../api';
 
-const generateOnSubmit = ({ hideModal, updateTasks }: TComponentProps) => (values: TTask) => {
-  try {
-    const task: TTask = {
-      id: _.uniqueId(),
-      title: values.title,
-      description: values.description,
-      created: values.created,
-    };
+const generateOnSubmit = ({
+  hideModal,
+  updateTasks
+}: TComponentProps) => (values: TTask) => {
+  const task: TTask = {
+    id: _.uniqueId(),
+    title: values.title,
+    description: values.description,
+    created: values.created,
+  };
 
-    addTask(task).then((response) => {
-      updateTasks((tasks: TTask[]) => {
-        tasks.push(response)
-      })
-      hideModal()
-    })
-  } catch (e) {
-    throw Error('remove task failed')
-  }
+  addTask(task).then((response) => {
+    updateTasks((tasks: TTask[]) => {
+      tasks.push(response)
+    });
+
+    hideModal();
+    toast("Task successfully created!");
+  }).catch((error) => {
+    hideModal();
+    toast.error(error.message);
+  });
 };
 
 const Add: React.FC<TComponentProps> = (props) => {
-  const { hideModal } = props
+  const { hideModal } = props;
   const formik = useFormik({
     initialValues: { id: '', title: '', description: '', created: ''},
     onSubmit: generateOnSubmit(props),
-  })
+  });
 
   const inputRef = useRef<HTMLInputElement>(null!);
   useEffect(() => {
@@ -41,7 +46,7 @@ const Add: React.FC<TComponentProps> = (props) => {
   }, []);
 
   return (
-    <Modal hideModal={hideModal}>
+    <Modal>
       <Modal.Header hideModal={hideModal}>Add Task</Modal.Header>
 
       <form onSubmit={formik.handleSubmit}>
@@ -97,7 +102,7 @@ const Add: React.FC<TComponentProps> = (props) => {
         </Modal.Footer>
       </form>
     </Modal>
-  )
-}
+  );
+};
 
-export default Add
+export default Add;

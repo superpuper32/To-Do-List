@@ -1,12 +1,12 @@
-import { FC } from 'react'
+import { FC } from 'react';
 
-import { TRenderTask } from '../../types'
+import { TRenderTask } from '../../types';
 
 const Task: FC<TRenderTask> = ({
     showModal,
     task
 }): JSX.Element => {
-  const {  title, description, created } = task
+  const {  title, description, created } = task;
 
   return (
     <div className='mb-4 rounded-md p-4 bg-white ring-1 ring-slate-200 shadow-sm'>
@@ -28,7 +28,7 @@ const Task: FC<TRenderTask> = ({
             <button className='btn btn--secondary basis-1/4' onClick={() => showModal('removing', task)}>Remove</button>
         </div>
     </div>
-  )
+  );
 }
 
-export default Task
+export default Task;
