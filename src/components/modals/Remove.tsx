@@ -2,11 +2,19 @@ import React from 'react'
 
 import Modal from '../Modal/Modal'
 import { TComponentProps } from '../../types'
+import { removeTask } from '../../api';
 
 const generateOnSubmit = ({ modal, hideModal, updateTasks }: TComponentProps) => (e: React.SyntheticEvent) => {
   e.preventDefault()
-  updateTasks(tasks => tasks.filter(task => task.id !== modal?.task?.id))
-  hideModal()
+  try {
+      const id = modal?.task?.id
+      removeTask(id).then((response) => {
+        updateTasks(tasks => tasks.filter(task => task.id !== response.id))
+        hideModal()
+      })
+  } catch (e) {
+    throw Error('remove task failed')
+  }
 };
 
 const Remove: React.FC<TComponentProps> = (props) => {
