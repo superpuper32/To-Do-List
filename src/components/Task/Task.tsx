@@ -25,7 +25,7 @@ const Task: FC<TRenderTask> = ({
 
         <div className='flex flex-wrap justify-around'>
             <button className='btn btn--secondary basis-1/4' onClick={() => showModal('editing', task)}>Edit</button>
-            <button className='btn btn--secondary basis-1/4'>Remove</button>
+            <button className='btn btn--secondary basis-1/4' onClick={() => showModal('removing', task)}>Remove</button>
         </div>
     </div>
   )

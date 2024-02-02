@@ -27,13 +27,14 @@ function Main() {
       id: '',
       title: '',
       description: '',
-      created: ''}
-    })
+      created: ''
+    }
+  })
 
   const hideModal = () => setModal({ type: null, task: {id: '', title: '', description: '', created: ''} })
   const showModal = useCallback((type: TModalName, task: TTask) => setModal({ type, task }), [])
   
-  const handleAdd = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [])
+  const handleAdd = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [showModal])
 
   useEffect(() => {
     fetchTasks().then(result => {
