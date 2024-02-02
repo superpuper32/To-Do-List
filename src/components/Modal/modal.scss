@@ -41,6 +41,10 @@
     &--body {
         @apply relative flex-auto p-4;
     }
+
+    &--footer {
+        @apply relative flex justify-center p-4;
+    }
 }
 
 .btn--close {

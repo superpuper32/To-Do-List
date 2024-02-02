@@ -1,35 +1,67 @@
-import { FC } from 'react'
+import { FC, Component, ReactNode } from 'react'
 
 import './modal.scss'
-import Form from '../Form/Form'
+
+type HeaderProps = {
+    children: React.ReactNode;
+    hideModal: () => void;
+};
+
+const Header: FC<HeaderProps> = ({
+    children,
+    hideModal
+}) => (
+    <>
+        <div className='modal--header'>
+            <h4 className='modal--title'>{children}</h4>
+            <button className='btn--close bg-close' onClick={hideModal}></button>
+        </div>
+        <div className='w-full h-px bg-gray-200 my-4'></div>
+    </>
+);
+
+type BodyProps = {
+    children: ReactNode
+};
+
+const Body: FC<BodyProps> = ({
+    children
+}) => (<div className="modal--body">{children}</div>);
+
+type FooterProps = {
+    children: ReactNode
+};
+
+const Footer: FC<FooterProps> = ({
+    children
+}) => (<div className="modal--footer">{children}</div>);
 
 interface ModalProps {
+    children: ReactNode
     hideModal: () => void
 }
 
-const Modal: FC<ModalProps> = ({
-    hideModal
-}) => {
-  return (
-    <>
-        <div className='fade modalback'></div>
+class Modal extends Component<ModalProps> {
+  static Header = Header;
+  static Body = Body;
+  static Footer = Footer;
 
-        <div className='fade modal show'>
-            <div className='modal--dialog'>
-                <div className='modal--content'>
-                    <div className='modal--header'>
-                        <h4 className='modal--title'>Add</h4>
-                        <button className='btn--close bg-close' onClick={hideModal}></button>
-                    </div>
-                    <div className='w-full h-px bg-gray-200 my-4'></div>
-                    <div className='modal--body'>
-                        <Form />
+  render() {
+    const { children } = this.props;
+    return (
+        <>
+            <div className='fade modalback'></div>
+
+            <div className="fade modal show" role="dialog">
+                <div className="modal--dialog">
+                    <div className="modal--content">
+                        {children}
                     </div>
                 </div>
             </div>
-        </div>
-    </>
-  )
+        </>
+    )
+  }
 }
 
-export default Modal
+export default Modal;

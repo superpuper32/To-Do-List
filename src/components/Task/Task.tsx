@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { TaskT } from '../../types'
+import { TTask } from '../../types'
 
 interface TaskProps {
-    key: number
-    task: TaskT
+    key: string
+    task: TTask
 }
 
 const Task: FC<TaskProps> = ({
