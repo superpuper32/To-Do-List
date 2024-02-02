@@ -7,7 +7,7 @@ import { TTask, TModalName, TModal, TComponentProps } from '../types'
 import Button from '../components/Button'
 
 import getModal from '../components/modals';
-import { fetchTasks } from '../api/fetchTasks'
+import { fetchTasks } from '../api'
 
 const renderModal = ({ modal, hideModal, updateTasks }: TComponentProps) => {
   if (!modal.type) {
@@ -48,7 +48,7 @@ function Main() {
 
   return (
     <>
-    <div className="main--container relative h-screen">
+    <div className="main--container relative h-screen mb-32">
       <h1>To Do List</h1>
 
       {tasks.map((task: TTask): ReactNode => {

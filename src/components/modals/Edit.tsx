@@ -1,21 +1,27 @@
 import React, { useEffect, useRef } from 'react'
 import { useFormik } from 'formik'
 
-import { TComponentProps, TValues} from '../../types'
+import { TComponentProps, TTask} from '../../types'
 import Modal from '../Modal/Modal';
+import { updateTask } from '../../api';
 
 const generateOnSubmit = ({
-    modal,
     hideModal,
     updateTasks
-}: TComponentProps) => (values: TValues) => {
-  updateTasks((tasks) => {
-    const task = tasks.find((task) => task.id === modal?.task?.id)
-    task!.title = values.title
-    task!.description = values.description
-    task!.created = values.created
-  });
-  hideModal()
+}: TComponentProps) => (values: TTask) => {
+    try {
+        updateTask(values).then((response) => {
+            updateTasks((tasks) => {
+              const task = tasks.find((task) => task.id === response.id)
+              task!.title = response.title
+              task!.description = response.description
+              task!.created = response.created
+            });
+            hideModal()
+        })
+    } catch (e) {
+    throw Error('remove task failed')
+  }
 }
 
 const Edit: React.FC<TComponentProps> = (props) => {

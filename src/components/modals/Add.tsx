@@ -3,27 +3,35 @@ import { useFormik } from 'formik'
 import _ from 'lodash';
 
 import Modal from '../Modal/Modal'
-import '../Input/input.scss'
+import './input.scss'
 
-import { TTask, TComponentProps, TValues } from '../../types'
+import { TTask, TComponentProps } from '../../types'
+import { addTask } from '../../api';
 
-const generateOnSubmit = ({ hideModal, updateTasks }: TComponentProps) => (values: TValues) => {
-  const task: TTask = {
-    id: _.uniqueId(),
-    title: values.title,
-    description: values.description,
-    created: values.created,
-  };
-  updateTasks((tasks: TTask[]) => {
-    tasks.push(task);
-  });
-  hideModal();
+const generateOnSubmit = ({ hideModal, updateTasks }: TComponentProps) => (values: TTask) => {
+  try {
+    const task: TTask = {
+      id: _.uniqueId(),
+      title: values.title,
+      description: values.description,
+      created: values.created,
+    };
+
+    addTask(task).then((response) => {
+      updateTasks((tasks: TTask[]) => {
+        tasks.push(response)
+      })
+      hideModal()
+    })
+  } catch (e) {
+    throw Error('remove task failed')
+  }
 };
 
 const Add: React.FC<TComponentProps> = (props) => {
   const { hideModal } = props
   const formik = useFormik({
-    initialValues: { title: '', description: '', created: ''},
+    initialValues: { id: '', title: '', description: '', created: ''},
     onSubmit: generateOnSubmit(props),
   })
 
