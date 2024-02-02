@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useCallback, useState } from 'react'
+import { ReactNode, useEffect, useCallback, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useImmer } from "use-immer"
 
@@ -21,18 +21,23 @@ const renderModal = ({ modal, hideModal, updateTasks }: TComponentProps) => {
 
 function Main() {
   const [tasks, updateTasks] = useImmer([])
-
-  const [modal, setModal] = useState<TModal>({ type: null, task: { id: '', title: '', description: '', created: ''} })
+  const [modal, setModal] = useState<TModal>({
+    type: null,
+    task: {
+      id: '',
+      title: '',
+      description: '',
+      created: ''}
+    })
 
   const hideModal = () => setModal({ type: null, task: {id: '', title: '', description: '', created: ''} })
-  const showModal = useMemo(() => (type: TModalName, task: TTask) => setModal({ type, task }), [])
-
+  const showModal = useCallback((type: TModalName, task: TTask) => setModal({ type, task }), [])
   
   const handleAdd = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [])
 
   useEffect(() => {
     fetchTasks().then(result => {
-      updateTasks((tasks) => {
+      updateTasks((tasks: TTask[]) => {
         result.forEach((task: TTask ) => {
             tasks.push(task)
         })
@@ -46,7 +51,7 @@ function Main() {
       <h1>To Do List</h1>
 
       {tasks.map((task: TTask): ReactNode => {
-        return <Task key={task.id} task={task} />
+        return <Task key={task.id} task={task} showModal={showModal} />
       })}
 
       <div className='fixed flex justify-center inset-x-0 bottom-0 w-full'>

@@ -1,40 +1,40 @@
 import React, { useEffect, useRef } from 'react'
 import { useFormik } from 'formik'
-import _ from 'lodash';
 
-import Modal from '../Modal/Modal'
-import '../Input/input.scss'
+import { TComponentProps, TValues} from '../../types'
+import Modal from '../Modal/Modal';
 
-import { TTask, TComponentProps, TValues } from '../../types'
-
-const generateOnSubmit = ({ hideModal, updateTasks }: TComponentProps) => (values: TValues) => {
-  const task: TTask = {
-    id: _.uniqueId(),
-    title: values.title,
-    description: values.description,
-    created: values.created,
-  };
-  updateTasks((tasks: TTask[]) => {
-    tasks.push(task);
+const generateOnSubmit = ({
+    modal,
+    hideModal,
+    updateTasks
+}: TComponentProps) => (values: TValues) => {
+  updateTasks((tasks) => {
+    const task = tasks.find((task) => task.id === modal?.task?.id)
+    task!.title = values.title
+    task!.description = values.description
+    task!.created = values.created
   });
-  hideModal();
-};
+  hideModal()
+}
 
-const Add: React.FC<TComponentProps> = (props) => {
-  const { hideModal } = props
+const Edit: React.FC<TComponentProps> = (props) => {
+  const { hideModal, modal } = props
+  const { task } = modal
+
   const formik = useFormik({
-    initialValues: { title: '', description: '', created: ''},
+    initialValues: task,
     onSubmit: generateOnSubmit(props),
   })
 
-  const inputRef = useRef<HTMLInputElement>(null!);
+  const inputRef = useRef<HTMLInputElement>(null!)
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    inputRef.current.focus()
+  }, [])
 
   return (
     <Modal hideModal={hideModal}>
-      <Modal.Header hideModal={hideModal}>Add Task</Modal.Header>
+      <Modal.Header hideModal={hideModal}>Rename</Modal.Header>
 
       <form onSubmit={formik.handleSubmit}>
         <Modal.Body>
@@ -83,13 +83,12 @@ const Add: React.FC<TComponentProps> = (props) => {
             </label>
           </div>
         </Modal.Body>
-
         <Modal.Footer>
-          <button type="submit" className="btn btn--primary">Submit</button>
+          <input className="btn btn--primary" type="submit" value="submit" />
         </Modal.Footer>
       </form>
     </Modal>
   )
 }
 
-export default Add
+export default Edit
