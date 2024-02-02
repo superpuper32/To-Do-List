@@ -18,9 +18,9 @@ export type TComponentProps = {
     updateTasks(fn: (tasks: TTask[]) => void): void
 }
 
-export type TRenderItem = {
+export type TRenderTask = {
   task: TTask
-  showModal(type: string, item?: TTask | null): void
+  showModal(type: string, task?: TTask | null): void
 }
 
 export interface TValues {
