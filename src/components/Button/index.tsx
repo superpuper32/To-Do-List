@@ -1,15 +1,17 @@
 import { FC, memo } from 'react';
 
 interface ButtonProps {
-    handleClick: () => void
+    handleClick: () => void;
+    title: string;
 }
 
 const Button: FC<ButtonProps> = memo(({
-    handleClick
+    handleClick,
+    title
 }) => {
     return (
         <div className="block my-3">
-            <button className="btn--primary" onClick={handleClick}>Add Task</button>
+            <button className="btn--primary" onClick={handleClick}>{title}</button>
         </div>
     );
 });

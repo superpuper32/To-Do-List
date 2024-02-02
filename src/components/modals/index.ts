@@ -2,7 +2,7 @@ import Add from './Add.tsx';
 import Remove from './Remove.tsx';
 import Edit from './Edit.tsx';
 
-import { TModalName, TComponentProps } from '../../types';
+import { TModalType, TComponentProps } from '../../types';
 
 const modals = {
   adding: Add,
@@ -10,4 +10,4 @@ const modals = {
   editing: Edit,
 };
 
-export default (modalName: TModalName): React.FC<TComponentProps> => modals[modalName];
+export default (modalType: TModalType): React.FC<TComponentProps> => modals[modalType];

@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react'
-import { useFormik } from 'formik'
+import { FC, useEffect, useRef } from 'react';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 
-import { TComponentProps, TTask} from '../../types'
+import { TComponentProps, TTask } from '../../types';
 import Modal from '../Modal/Modal';
 import { updateTask } from '../../api';
 
@@ -9,37 +10,37 @@ const generateOnSubmit = ({
     hideModal,
     updateTasks
 }: TComponentProps) => (values: TTask) => {
-    try {
-        updateTask(values).then((response) => {
-            updateTasks((tasks) => {
-              const task = tasks.find((task) => task.id === response.id)
-              task!.title = response.title
-              task!.description = response.description
-              task!.created = response.created
-            });
-            hideModal()
-        })
-    } catch (e) {
-    throw Error('remove task failed')
-  }
+    updateTask(values).then((response) => {
+      updateTasks((tasks) => {
+        const task = tasks.find((task) => task.id === response.id)
+        task!.title = response.title
+        task!.description = response.description
+        task!.created = response.created
+      });
+      hideModal();
+      toast("Task successfully edited!");
+    }).catch((error) => {
+      hideModal();
+      toast.error(error.message);
+    });
 }
 
-const Edit: React.FC<TComponentProps> = (props) => {
-  const { hideModal, modal } = props
-  const { task } = modal
+const Edit: FC<TComponentProps> = (props) => {
+  const { hideModal, modal } = props;
+  const { task } = modal;
 
   const formik = useFormik({
     initialValues: task,
     onSubmit: generateOnSubmit(props),
-  })
+  });
 
-  const inputRef = useRef<HTMLInputElement>(null!)
+  const inputRef = useRef<HTMLInputElement>(null!);
   useEffect(() => {
-    inputRef.current.focus()
-  }, [])
+    inputRef.current.focus();
+  }, []);
 
   return (
-    <Modal hideModal={hideModal}>
+    <Modal>
       <Modal.Header hideModal={hideModal}>Edit Task</Modal.Header>
 
       <form onSubmit={formik.handleSubmit}>
@@ -94,7 +95,7 @@ const Edit: React.FC<TComponentProps> = (props) => {
         </Modal.Footer>
       </form>
     </Modal>
-  )
+  );
 }
 
-export default Edit
+export default Edit;

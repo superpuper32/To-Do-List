@@ -1,28 +1,35 @@
-import React from 'react'
+import { FC } from 'react';
+import { toast } from 'react-toastify';
 
-import Modal from '../Modal/Modal'
-import { TComponentProps } from '../../types'
+import Modal from '../Modal/Modal';
+import { TComponentProps } from '../../types';
 import { removeTask } from '../../api';
 
-const generateOnSubmit = ({ modal, hideModal, updateTasks }: TComponentProps) => (e: React.SyntheticEvent) => {
-  e.preventDefault()
-  try {
-      const id = modal?.task?.id
-      removeTask(id).then((response) => {
-        updateTasks(tasks => tasks.filter(task => task.id !== response.id))
-        hideModal()
-      })
-  } catch (e) {
-    throw Error('remove task failed')
-  }
+const generateOnSubmit = ({
+  modal,
+  hideModal,
+  updateTasks
+}: TComponentProps) => (e: React.SyntheticEvent) => {
+  e.preventDefault();
+
+  const id = modal?.task?.id;
+  removeTask(id).then((response) => {
+    updateTasks(tasks => tasks.filter(task => task.id !== response.id));
+    
+    hideModal();
+    toast("Task successfully removed!");
+  }).catch((error) => {
+    hideModal();
+    toast.error(error.message);
+  });
 };
 
-const Remove: React.FC<TComponentProps> = (props) => {
-  const { hideModal } = props
-  const onSubmit = generateOnSubmit(props)
+const Remove: FC<TComponentProps> = (props) => {
+  const { hideModal } = props;
+  const onSubmit = generateOnSubmit(props);
 
   return (
-    <Modal hideModal={hideModal}>
+    <Modal>
       <Modal.Header hideModal={hideModal}>
         Remove Task
       </Modal.Header>
@@ -33,7 +40,7 @@ const Remove: React.FC<TComponentProps> = (props) => {
         </form>
       </Modal.Body>
     </Modal>
-  )
-}
+  );
+};
 
-export default Remove
+export default Remove;
