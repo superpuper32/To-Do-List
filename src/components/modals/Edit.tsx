@@ -34,7 +34,7 @@ const Edit: React.FC<TComponentProps> = (props) => {
 
   return (
     <Modal hideModal={hideModal}>
-      <Modal.Header hideModal={hideModal}>Rename</Modal.Header>
+      <Modal.Header hideModal={hideModal}>Edit Task</Modal.Header>
 
       <form onSubmit={formik.handleSubmit}>
         <Modal.Body>
