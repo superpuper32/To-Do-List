@@ -8,51 +8,33 @@
 .modal {
     @apply fixed block top-0 left-0 z-50 w-screen h-full overflow-x-hidden overflow-y-auto outline-white outline-0 outline-none;
 
-    &--dialog {
+    &__dialog {
         @apply relative w-auto m-2 pointer-events-none;
     }
 
     &.show {
         @apply opacity-100;
 
-        .modal-dialog {
+        .modal__dialog {
             @apply transform-none;
         }
     }
 
     &.fade {
-        .modal-dialog {
+        .modal__dialog {
             @apply transition-transform;
         }
     }
 
-    &--content {
+    &__content {
         @apply relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md border;
     }
-
-    &--header {
-        @apply flex shrink-0 items-center justify-between p-4;
-    }
-
-    &--title {
-        @apply text-2xl leading-normal;
-    }
-
-    &--body {
-        @apply relative flex-auto p-4;
-    }
-
-    &--footer {
-        @apply relative flex justify-center p-4;
-    }
 }
 
-.btn--close {
-    @apply box-content w-1 h-1 p-2 text-black opacity-50;
-}
+
 
 @media (min-width: 576px) {
-    .modal--dialog {
+    .modal__dialog {
         @apply max-w-lg my-7 mx-auto;
     }
 }

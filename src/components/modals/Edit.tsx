@@ -3,7 +3,8 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 
 import { TComponentProps, TTask } from '../../types';
-import Modal from '../Modal/Modal';
+import { Modal, Input, Button } from '../';
+
 import { updateTask } from '../../api';
 
 const generateOnSubmit = ({
@@ -45,53 +46,40 @@ const Edit: FC<TComponentProps> = (props) => {
 
       <form onSubmit={formik.handleSubmit}>
         <Modal.Body>
-          <div className='grid grid-cols-1 gap-6'>
-            <label className='block'>
-              <span className='text-gray-700'>Title</span>
-              <input
-                required
-                ref={inputRef}
-                type="text"
-                className='input--text'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.title}
-                data-testid="input-title"
-                name="title"
-              />
-            </label>
-
-            <label className='block'>
-              <span className='text-gray-700'>Description</span>
-              <input
-                required
-                type="text"
-                className='input--text'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.description}
-                data-testid="input-description"
-                name="description"
-              />
-            </label>
-
-            <label className='block'>
-              <span className='text-gray-700'>Date creation</span>
-              <input
-                required
-                type="date"
-                className='input--text'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.created}
-                data-testid="input-created"
-                name="created"
-              />
-            </label>
-          </div>
+            <Input
+              ref={inputRef}
+              required
+              label="Title"
+              type="text"
+              name="title"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.title}
+              data-testid="input-title"
+            />
+            <Input
+              required
+              label="Description"
+              type="text"
+              name="description"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.description}
+              data-testid="input-description"
+            />
+            <Input
+              required
+              label="Date creation"
+              type="date"
+              name="created"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.created}
+              data-testid="input-created"
+            />
         </Modal.Body>
         <Modal.Footer>
-          <input className="btn btn--primary" type="submit" value="submit" />
+          <Button className="btn btn--primary" type="submit">Submit</Button>
         </Modal.Footer>
       </form>
     </Modal>

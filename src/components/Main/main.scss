@@ -1,0 +1,11 @@
+.main-page {
+    @apply container md:w-1/2 w-screen h-screen relative mb-32;
+
+    &__body {
+        @apply my-1;
+    }
+
+    &__footer {
+        @apply fixed flex justify-center py-3 inset-x-0 bottom-0 w-full bg-white;
+    }
+}

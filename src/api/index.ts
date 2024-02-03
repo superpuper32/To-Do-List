@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import routes from './routes.ts';
-import { TTask } from '../types/index.ts';
+import { TTask } from '../types';
 
 export const fetchTasks = async () => {
   const response = await axios.get(routes.tasksPath());

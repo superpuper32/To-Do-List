@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { toast } from 'react-toastify';
 
-import Modal from '../Modal/Modal';
+import { Button, Modal } from '../';
 import { TComponentProps } from '../../types';
 import { removeTask } from '../../api';
 
@@ -30,15 +30,12 @@ const Remove: FC<TComponentProps> = (props) => {
 
   return (
     <Modal>
-      <Modal.Header hideModal={hideModal}>
-        Remove Task
-      </Modal.Header>
-
-      <Modal.Body>
+      <Modal.Header hideModal={hideModal}>Remove Task</Modal.Header>
+      <Modal.Footer>
         <form onSubmit={onSubmit}>
-            <input className="btn btn--primary" type="submit" value="Remove" />
+            <Button className="btn btn--primary" type="submit">Submit</Button>
         </form>
-      </Modal.Body>
+      </Modal.Footer>
     </Modal>
   );
 };

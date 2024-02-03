@@ -1,6 +1,7 @@
-import Main from "./components/Main/Main";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { Main } from "./components";
 
 import './App.scss';
 

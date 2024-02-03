@@ -5,64 +5,71 @@ import { toast } from 'react-toastify';
 
 import Task from '../Task/Task';
 import { TTask, TModalType, TModal, TComponentProps } from '../../types';
-import Button from '../Button';
+import { Button, Heading } from '../';
 
 import getModal from '../modals';
 import { fetchTasks } from '../../api';
 
-const renderModal = ({ modal, hideModal, updateTasks }: TComponentProps) => {
+import './main.scss';
+
+const renderModal = ({
+  modal,
+  hideModal,
+  updateTasks
+}: TComponentProps) => {
   if (!modal.type) {
     return null;
   }
-
   const Component = getModal(modal.type);
   return <Component modal={modal} hideModal={hideModal} updateTasks={updateTasks} />;
 };
 
 function Main() {
   const [tasks, updateTasks] = useImmer([]);
-  const [modal, setModal] = useState<TModal>({
-    type: null,
-    task: {
-      id: '',
-      title: '',
-      description: '',
-      created: ''
-    }
-  });
 
-  const hideModal = () => setModal({ type: null, task: {id: '', title: '', description: '', created: ''} });
-  const showModal = useCallback((type: TModalType, task: TTask) => setModal({ type, task }), []);
-  
-  const handleAdd = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [showModal]);
+  const [modal, setModal] = useState<TModal | null>(null);
+
+  const hideModal = () => setModal(null);
+
+  const showModal = useCallback((type: TModalType, task: TTask) => setModal({ type, task }), []);  
+
+  const addTask = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [showModal]);
 
   useEffect(() => {
     fetchTasks().then(result => {
       updateTasks((tasks: TTask[]) => {
+
         result.forEach((task: TTask ) => {
             tasks.push(task);
         })
+
       })
     }).catch((error) => {
       toast.error(error.message);
     });
   }, []);
 
+  const renderTasks = (task: TTask): ReactNode => (
+    <Task key={task.id} task={task} showModal={showModal} />
+  );
+
   return (
     <>
-      <div className="main--container relative h-screen mb-32">
-        <h1>To Do List</h1>
+      <div className="main-page">
+        <Heading>To Do List</Heading>
 
-        {tasks.map((task: TTask): ReactNode => {
-          return <Task key={task.id} task={task} showModal={showModal} />
-        })}
+        <div className='main-page__body'>
+          {tasks.map(renderTasks)}
+        </div>
 
-        <div className='fixed flex justify-center inset-x-0 bottom-0 w-full'>
-          <Button handleClick={handleAdd} title="Add Task" />
+        <div className='main-page__footer'>
+          <div className="">
+            <Button type="button" className="btn btn--primary" handleClick={addTask}>Add Task</Button>
+          </div>
         </div>
       </div>
 
-      {createPortal(renderModal({ modal, hideModal, updateTasks }), document.body)}
+      {modal && createPortal(renderModal({ modal, hideModal, updateTasks }), document.body)}
     </>
   );
 }

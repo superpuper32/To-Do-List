@@ -1,16 +1,16 @@
 {
-    "tasks": [
-        {
-            "title": "Task 1",
-            "id": "001",
-            "description": "description about task 1 description about task 1 description about task 1",
-            "created": "2024-02-01"
-        },
-        {
-            "title": "Task 2",
-            "id": "002",
-            "description": "description about task 2",
-            "created": "2024-02-01"
-        }
-    ]
+  "tasks": [
+    {
+      "id": "002",
+      "created": "2024-02-01",
+      "description": "Squats push-up",
+      "title": "Make exercises"
+    },
+    {
+      "id": "1",
+      "created": "2024-02-02",
+      "description": "Pack your suitcase and don't forget documents",
+      "title": "Preparing for vacation"
+    }
+  ]
 }
