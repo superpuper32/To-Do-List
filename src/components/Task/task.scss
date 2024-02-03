@@ -1,0 +1,30 @@
+.task {
+    @apply mb-4 rounded-md p-4 bg-white ring-1 ring-slate-200 shadow-sm;
+
+    &__content {
+        @apply flex flex-col;
+    }
+
+    &__footer {
+        @apply flex flex-wrap justify-around;
+    }
+
+    &__button {
+        @apply basis-1/4;
+    }
+}
+
+.content {
+
+    &__header {
+        @apply flex justify-between items-baseline;
+    }
+
+    &__date {
+        @apply text-slate-500 text-sm;
+    }
+
+    &__description {
+        @apply px-3 py-4 my-4 border-b text-slate-500 ;
+    }
+}

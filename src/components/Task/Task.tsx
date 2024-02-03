@@ -1,31 +1,45 @@
 import { FC } from 'react';
 
 import { TRenderTask } from '../../types';
+import { formatDate } from '../../utils';
+import './task.scss';
+import { Button } from '..';
 
 const Task: FC<TRenderTask> = ({
     showModal,
     task
 }): JSX.Element => {
   const {  title, description, created } = task;
+  const date = formatDate(created);
 
   return (
-    <div className='mb-4 rounded-md p-4 bg-white ring-1 ring-slate-200 shadow-sm'>
-        <div className='flex flex-col'>
-            <div>
+    <div className='task'>
+        <div className='task__content content'>
+            <div className='content__header'>
                 <h3>{title}</h3>
+                <span className='content__date'>{date}</span>
             </div>
-            <div className='m-3'>
+
+            <div className='content__description'>
                 <p>{description}</p>
             </div>
-            <div className='mb-2'>
-                <span className='text-slate-500'>{created}</span>
-            </div>
         </div>
-        <div className='w-full h-px bg-gray-200 my-4'></div>
 
-        <div className='flex flex-wrap justify-around'>
-            <button className='btn btn--secondary basis-1/4' onClick={() => showModal('editing', task)}>Edit</button>
-            <button className='btn btn--secondary basis-1/4' onClick={() => showModal('removing', task)}>Remove</button>
+        <div className='task__footer'>
+            <Button
+              type="button"
+              className="btn btn--secondary basis-1/4"
+              handleClick={() => showModal('editing', task)}
+            >
+              Edit
+            </Button>
+            <Button
+              type="button"
+              className='btn btn--secondary task__button'
+              handleClick={() => showModal('removing', task)}
+            >
+              Remove
+            </Button>
         </div>
     </div>
   );

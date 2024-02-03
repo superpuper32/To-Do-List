@@ -1,0 +1,11 @@
+.modal-label {
+    @apply block;
+
+    &__span {
+        @apply text-gray-700;
+    }
+
+    &__input {
+        @apply mt-1 block w-full border-gray-300 shadow-sm;
+    }
+}

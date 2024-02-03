@@ -9,7 +9,7 @@ export type TModalType = 'adding' | 'editing' | 'removing';
 
 export type TModal = {
     task: TTask;
-    type: TModalType | null;
+    type: TModalType;
 }
 
 export type TComponentProps = {
