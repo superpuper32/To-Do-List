@@ -1,52 +1,39 @@
 import { ReactNode, useEffect, useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useImmer } from "use-immer";
 import { toast } from 'react-toastify';
 
-import Task from '../Task/Task';
+import { Button, Heading, Task } from '../';
 import { TTask, TModalType, TModal, TComponentProps } from '../../types';
-import { Button, Heading } from '../';
-
+import { useTasks } from '../../hooks';
 import getModal from '../modals';
-import { fetchTasks } from '../../api';
 
 import './main.scss';
 
-const renderModal = ({
-  modal,
-  hideModal,
-  updateTasks
-}: TComponentProps) => {
-  if (!modal.type) {
-    return null;
-  }
+import { fetchTasks } from '../../api';
+
+const renderModal = ({ modal, hideModal }: TComponentProps) => {
   const Component = getModal(modal.type);
-  return <Component modal={modal} hideModal={hideModal} updateTasks={updateTasks} />;
+  return <Component modal={modal} hideModal={hideModal} />;
 };
 
 function Main() {
-  const [tasks, updateTasks] = useImmer([]);
-
-  const [modal, setModal] = useState<TModal | null>(null);
+  const [ modal, setModal ] = useState<TModal | null>(null);
+  const { tasks, addTask } = useTasks();
 
   const hideModal = () => setModal(null);
-
-  const showModal = useCallback((type: TModalType, task: TTask) => setModal({ type, task }), []);  
-
-  const addTask = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [showModal]);
+  const showModal = useCallback((type: TModalType, task: TTask) => setModal({ type, task }), []);
+  const showAddTask = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [showModal]);
 
   useEffect(() => {
+
     fetchTasks().then(result => {
-      updateTasks((tasks: TTask[]) => {
-
-        result.forEach((task: TTask ) => {
-            tasks.push(task);
-        })
-
+      result.forEach((task: TTask ) => {
+        addTask(task);
       })
     }).catch((error) => {
       toast.error(error.message);
     });
+    
   }, []);
 
   const renderTasks = (task: TTask): ReactNode => (
@@ -63,13 +50,11 @@ function Main() {
         </div>
 
         <div className='main-page__footer'>
-          <div className="">
-            <Button type="button" className="btn btn--primary" handleClick={addTask}>Add Task</Button>
-          </div>
+            <Button type="button" className="btn btn--primary" handleClick={showAddTask}>Add Task</Button>
         </div>
       </div>
 
-      {modal && createPortal(renderModal({ modal, hideModal, updateTasks }), document.body)}
+      {modal && createPortal(renderModal({ modal, hideModal }), document.body)}
     </>
   );
 }

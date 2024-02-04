@@ -1,24 +1,25 @@
-import React, { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 
-import { TTask, TComponentProps } from '../../types';
+import { TTask, TComponentProps, TNewTask } from '../../types';
 import { Modal, Input, Button } from '../';
+import { useTasks } from '../../hooks';
 
-import { addTask } from '../../api';
+import { addTask as fetchTask } from '../../api';
 
-const generateOnSubmit = ({
-  hideModal,
-  updateTasks
-}: TComponentProps) => (values: TTask) => {
+type SubmitProps = {
+  hideModal: () => void;
+  addTask: (task: TTask) => void;
+};
+
+const generateOnSubmit = ({ hideModal, addTask }: SubmitProps) => (values: TNewTask) => {
   const task: TTask = { ...values, id: _.uniqueId() };
 
-  addTask(task).then((response) => {
+  fetchTask(task).then((response) => {
 
-    updateTasks((tasks: TTask[]) => {
-      tasks.push(response)
-    });
+    addTask(response);
 
     hideModal();
     toast("Task successfully created!");
@@ -26,14 +27,15 @@ const generateOnSubmit = ({
     hideModal();
     toast.error(error.message);
   });
+
 };
 
-const Add: React.FC<TComponentProps> = (props) => {
-  const { hideModal } = props;
-
+const Add: FC<TComponentProps> = ({ hideModal }) => {
+  const { addTask } = useTasks();
+  
   const formik = useFormik({
-    initialValues: { id: '', title: '', description: '', created: ''},
-    onSubmit: generateOnSubmit(props),
+    initialValues: { title: '', description: '', created: '' },
+    onSubmit: generateOnSubmit({ hideModal, addTask }),
   });
 
   const inputRef = useRef<HTMLInputElement>(null!);
@@ -80,7 +82,7 @@ const Add: React.FC<TComponentProps> = (props) => {
             />
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn--primary" type="submit">Submit</Button>
+          <Button className="btn btn--primary" type="submit">Add</Button>
         </Modal.Footer>
       </form>
     </Modal>

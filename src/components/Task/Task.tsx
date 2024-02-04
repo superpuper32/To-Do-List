@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 import { TRenderTask } from '../../types';
+import { Button } from '../';
 import { formatDate } from '../../utils';
 import './task.scss';
-import { Button } from '..';
 
 const Task: FC<TRenderTask> = ({
     showModal,
