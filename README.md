@@ -32,12 +32,11 @@ npm install
 ### Running the app
 
 To get the app up and running (and really see if it worked), run:
-frontend:
 ```sh
 npm run dev
 ```
 
-in separate terminal tab - backend json-server:
+backend (json-server) in separate terminal tab, run:
 ```sh
 npm run server
 ```
