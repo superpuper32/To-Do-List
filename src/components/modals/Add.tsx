@@ -1,41 +1,21 @@
 import { FC, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import _ from 'lodash';
-import { toast } from 'react-toastify';
 
 import { TTask, TComponentProps, TNewTask } from '../../types';
 import { Modal, Input, Button } from '../';
 import { useTasks } from '../../hooks';
-
-import { addTask as fetchTask } from '../../api';
-
-type SubmitProps = {
-  hideModal: () => void;
-  addTask: (task: TTask) => void;
-};
-
-const generateOnSubmit = ({ hideModal, addTask }: SubmitProps) => (values: TNewTask) => {
-  const task: TTask = { ...values, id: _.uniqueId() };
-
-  fetchTask(task).then((response) => {
-
-    addTask(response);
-
-    hideModal();
-    toast("Task successfully created!");
-  }).catch((error) => {
-    hideModal();
-    toast.error(error.message);
-  });
-
-};
 
 const Add: FC<TComponentProps> = ({ hideModal }) => {
   const { addTask } = useTasks();
   
   const formik = useFormik({
     initialValues: { title: '', description: '', created: '' },
-    onSubmit: generateOnSubmit({ hideModal, addTask }),
+    onSubmit: async (values: TNewTask) => {
+      const newTask: TTask = { ...values, id: _.uniqueId() };
+      await addTask(newTask);
+      hideModal();
+    }
   });
 
   const inputRef = useRef<HTMLInputElement>(null!);

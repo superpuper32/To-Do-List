@@ -1,28 +1,9 @@
 import { FC, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
 
 import { TComponentProps, TTask } from '../../types';
 import { Modal, Input, Button } from '../';
 import { useTasks } from '../../hooks';
-
-import { updateTask } from '../../api';
-
-type SubmitProps = {
-  hideModal: () => void;
-  editTask: (task: TTask) => void;
-};
-
-const generateOnSubmit = ({ hideModal, editTask }: SubmitProps) => (values: TTask) => {
-    updateTask(values).then((response) => {
-      editTask(response);
-      hideModal();
-      toast("Task successfully edited!");
-    }).catch((error) => {
-      hideModal();
-      toast.error(error.message);
-    });
-}
 
 const Edit: FC<TComponentProps> = ({ hideModal, modal }) => {
   const { editTask } = useTasks();
@@ -30,7 +11,10 @@ const Edit: FC<TComponentProps> = ({ hideModal, modal }) => {
 
   const formik = useFormik({
     initialValues: task,
-    onSubmit: generateOnSubmit({ hideModal, editTask }),
+    onSubmit: async (task: TTask) => {
+      await editTask(task);
+      hideModal();
+    }
   });
 
   const inputRef = useRef<HTMLInputElement>(null!);

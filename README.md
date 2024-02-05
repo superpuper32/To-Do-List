@@ -36,7 +36,14 @@ To get the app up and running (and really see if it worked), run:
 npm run dev
 ```
 
-backend (json-server) in separate terminal tab, run:
+Backend (json-server) in separate terminal tab, run:
 ```sh
 npm run server
+```
+Routes based on the db.json, you'll get the following routes:
+```sh
+GET    /tasks
+POST   /tasks
+PUT    /tasks/:id
+DELETE /tasks/:id
 ```

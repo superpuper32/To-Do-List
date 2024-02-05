@@ -1,5 +1,4 @@
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { Balance, Button, Heading, Task } from '../';
 import { TTask, TModalType, TModal, TComponentProps } from '../../types';
@@ -8,26 +7,16 @@ import getModal from '../modals';
 
 import './main.scss';
 
-import { fetchTasks } from '../../api';
-
 function Main() {
   const [ modal, setModal ] = useState<TModal | null>(null);
-  const { tasks, addTask } = useTasks();
+  const { tasks, addTasks } = useTasks();
 
   const hideModal = () => setModal(null);
   const showModal = (type: TModalType) => (task: TTask) => setModal({ type, task });
   const showAddModal = () => setModal({ type: "adding", task: {} as TTask });
 
   useEffect(() => {
-
-    fetchTasks().then(result => {
-      result.forEach((task: TTask) => {
-        addTask(task);
-      })
-    }).catch((error) => {
-      toast.error(error.message);
-    });
-    
+    addTasks();
   }, []);
 
   const renderTasks = (task: TTask): ReactNode => (
