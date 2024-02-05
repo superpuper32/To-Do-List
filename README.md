@@ -5,7 +5,7 @@ Web App for managing a list of tasks with the ability to create, edit and delete
 
 ### Technologies used
 
-Axios, Formik, Lodash, Scss, useImmer, React-toastify
+Axios, Formik, Lodash, Scss, React-toastify
 
 ### System requirements
 

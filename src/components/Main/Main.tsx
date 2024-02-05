@@ -1,5 +1,4 @@
-import { ReactNode, useEffect, useCallback, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Button, Heading, Task } from '../';
@@ -11,18 +10,13 @@ import './main.scss';
 
 import { fetchTasks } from '../../api';
 
-const renderModal = ({ modal, hideModal }: TComponentProps) => {
-  const Component = getModal(modal.type);
-  return <Component modal={modal} hideModal={hideModal} />;
-};
-
 function Main() {
   const [ modal, setModal ] = useState<TModal | null>(null);
   const { tasks, addTask } = useTasks();
 
   const hideModal = () => setModal(null);
-  const showModal = useCallback((type: TModalType, task: TTask) => setModal({ type, task }), []);
-  const showAddTask = useCallback(() => showModal('adding', {id: '', title: '', description: '', created: ''}), [showModal]);
+  const showModal = (type: TModalType) => (task: TTask) => setModal({ type, task });
+  const showAddModal = () => setModal({ type: "adding", task: {} as TTask });
 
   useEffect(() => {
 
@@ -37,8 +31,18 @@ function Main() {
   }, []);
 
   const renderTasks = (task: TTask): ReactNode => (
-    <Task key={task.id} task={task} showModal={showModal} />
+    <Task
+      key={task.id}
+      task={task}
+      showEditModal={showModal("editing")}
+      showRemoveModal={showModal("removing")}
+    />
   );
+
+  const renderModal = ({ modal, hideModal }: TComponentProps): ReactElement => {
+    const Component = getModal(modal.type);
+    return <Component modal={modal} hideModal={hideModal} />;
+  };
 
   return (
     <>
@@ -49,12 +53,12 @@ function Main() {
           {tasks.map(renderTasks)}
         </div>
 
-        <div className='main-page__footer'>
-            <Button type="button" className="btn btn--primary" handleClick={showAddTask}>Add Task</Button>
+        <div className="main-page__footer">
+            <Button type="button" className="btn btn--primary" handleClick={showAddModal}>Add Task</Button>
         </div>
       </div>
 
-      {modal && createPortal(renderModal({ modal, hideModal }), document.body)}
+      {modal && renderModal({ modal, hideModal })}
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { FC, ReactElement } from 'react';
+import { createPortal } from 'react-dom';
 
 import { ModalProps } from './Modal.types';
 import Header from './Header/Header';
@@ -12,13 +13,14 @@ export interface ModalSubComponents {
     Footer: typeof Footer;
 }
 
+const modalRoot = document.getElementById("root") as HTMLElement;
+
 const Modal: FC<ModalProps> & ModalSubComponents  = ({
     children
 }): ReactElement => {
-
-    return (
+    return createPortal(
         <>
-            <div className='fade modalback'></div>
+            <div className="fade modalback show"></div>
             <div className="fade modal show" role="dialog">
                 <div className="modal__dialog">
                     <div className="modal__content">
@@ -26,7 +28,8 @@ const Modal: FC<ModalProps> & ModalSubComponents  = ({
                     </div>
                 </div>
             </div>
-        </>
+        </>,
+        modalRoot
     );
 };
 

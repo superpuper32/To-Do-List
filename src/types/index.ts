@@ -7,7 +7,7 @@ export type TTask = {
 
 export type TNewTask = Omit<TTask, "id">;
 
-export type TModalType = 'adding' | 'editing' | 'removing';
+export type TModalType = "adding" | "editing" | "removing";
 
 export type TModal = {
     task: TTask;
@@ -21,5 +21,6 @@ export type TComponentProps = {
 
 export type TRenderTask = {
   task: TTask;
-  showModal(type: string, task?: TTask | null): void;
+  showRemoveModal(task: TTask): void;
+  showEditModal(task: TTask): void;
 };
