@@ -1,0 +1,15 @@
+.balance-details {
+    @apply flex justify-around flex-wrap sm:justify-center sm:flex-nowrap  bg-slate-400 py-2 px-3;
+
+    &__card {
+        @apply flex-initial flex justify-between items-center mr-3 my-1 p-1 border rounded-md bg-white;
+
+        > div {
+            @apply mx-2 flex;
+
+            > span {
+                @apply ml-1;
+            }
+        }
+    }
+}

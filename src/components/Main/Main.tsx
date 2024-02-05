@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Button, Heading, Task } from '../';
+import { Balance, Button, Heading, Task } from '../';
 import { TTask, TModalType, TModal, TComponentProps } from '../../types';
 import { useTasks } from '../../hooks';
 import getModal from '../modals';
@@ -47,6 +47,7 @@ function Main() {
   return (
     <>
       <div className="main-page">
+        <Balance />
         <Heading>To Do List</Heading>
 
         <div className='main-page__body'>

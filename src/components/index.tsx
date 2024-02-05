@@ -1,3 +1,4 @@
+import Balance from './Balance/Balance';
 import Button from './Button/Button';
 import Heading from './Heading/Heading';
 import Modal from './Modal/Modal';
@@ -6,6 +7,7 @@ import Main from './Main/Main';
 import Task from './Task/Task';
 
 export {
+    Balance,
     Button,
     Modal,
     Heading,
