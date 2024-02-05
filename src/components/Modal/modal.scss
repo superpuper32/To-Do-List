@@ -1,19 +1,26 @@
 .fade {
-    @apply opacity-50 transition-opacity;
+    @apply transition-opacity duration-150 ease-linear delay-0;
 }
 .modalback {
     @apply fixed top-0 left-0 z-40 w-screen h-screen bg-black;
+
+    &.fade {
+        @apply opacity-0;
+    }
+
+    &.show {
+        @apply opacity-50;
+    }
 }
 
 .modal {
     @apply fixed block top-0 left-0 z-50 w-screen h-full overflow-x-hidden overflow-y-auto outline-white outline-0 outline-none;
 
     &__dialog {
-        @apply relative w-auto m-2 pointer-events-none;
+        @apply relative w-auto m-3 pointer-events-none;
     }
 
     &.show {
-        @apply opacity-100;
 
         .modal__dialog {
             @apply transform-none;
@@ -22,7 +29,7 @@
 
     &.fade {
         .modal__dialog {
-            @apply transition-transform;
+            @apply transition-transform duration-1000 ease-out delay-0;
         }
     }
 

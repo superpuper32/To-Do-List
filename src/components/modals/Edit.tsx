@@ -4,20 +4,18 @@ import { toast } from 'react-toastify';
 
 import { TComponentProps, TTask } from '../../types';
 import { Modal, Input, Button } from '../';
+import { useTasks } from '../../hooks';
 
 import { updateTask } from '../../api';
 
-const generateOnSubmit = ({
-    hideModal,
-    updateTasks
-}: TComponentProps) => (values: TTask) => {
+type SubmitProps = {
+  hideModal: () => void;
+  editTask: (task: TTask) => void;
+};
+
+const generateOnSubmit = ({ hideModal, editTask }: SubmitProps) => (values: TTask) => {
     updateTask(values).then((response) => {
-      updateTasks((tasks) => {
-        const task = tasks.find((task) => task.id === response.id)
-        task!.title = response.title
-        task!.description = response.description
-        task!.created = response.created
-      });
+      editTask(response);
       hideModal();
       toast("Task successfully edited!");
     }).catch((error) => {
@@ -26,13 +24,13 @@ const generateOnSubmit = ({
     });
 }
 
-const Edit: FC<TComponentProps> = (props) => {
-  const { hideModal, modal } = props;
+const Edit: FC<TComponentProps> = ({ hideModal, modal }) => {
+  const { editTask } = useTasks();
   const { task } = modal;
 
   const formik = useFormik({
     initialValues: task,
-    onSubmit: generateOnSubmit(props),
+    onSubmit: generateOnSubmit({ hideModal, editTask }),
   });
 
   const inputRef = useRef<HTMLInputElement>(null!);
@@ -79,7 +77,7 @@ const Edit: FC<TComponentProps> = (props) => {
             />
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn--primary" type="submit">Submit</Button>
+          <Button className="btn btn--primary" type="submit">Edit</Button>
         </Modal.Footer>
       </form>
     </Modal>
