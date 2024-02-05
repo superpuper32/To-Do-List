@@ -21,7 +21,7 @@ function Main() {
   useEffect(() => {
 
     fetchTasks().then(result => {
-      result.forEach((task: TTask ) => {
+      result.forEach((task: TTask) => {
         addTask(task);
       })
     }).catch((error) => {

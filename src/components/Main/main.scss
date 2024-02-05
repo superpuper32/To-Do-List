@@ -1,8 +1,8 @@
 .main-page {
-    @apply w-screen h-screen relative;
+    @apply w-screen relative;
 
     &__body {
-        @apply container my-1 w-screen md:w-1/2;
+        @apply container my-1 w-screen md:w-1/2 pb-24;
     }
 
     &__footer {
