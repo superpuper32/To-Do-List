@@ -1,24 +1,30 @@
 import axios from 'axios';
 
-import routes from './routes.ts';
 import { TTask } from '../types';
 
-export const fetchTasks = async () => {
-  const response = await axios.get(routes.tasksPath());
-  return response.data;
-};
+const instance = axios.create({
+  baseURL: "http://localhost:3000",
+  timeout: 1000
+});
 
-export const addTask = async (task: TTask) => {
-  const response = await axios.post(routes.tasksPath(), task);
-  return response.data;
-};
+export class TasksApi {
+  static fetchTasks = async () => {
+    const response = await instance.get("/tasks");
+    return response.data;
+  }
 
-export const updateTask = async (task: TTask) => {
-  const response = await axios.put(routes.taskPath(task.id), task);
-  return response.data;
-};
+  static addTask = async (task: TTask) => {
+    const response = await instance.post("/tasks", task);
+    return response.data;
+  };
 
-export const removeTask = async (id: string) => {
-  const response = await axios.delete(routes.taskPath(id));
-  return response.data;
-};
+  static updateTask = async (task: TTask) => {
+    const response = await instance.put(`/tasks/${task.id}`, task);
+    return response.data;
+  };
+
+  static removeTask = async (id: string) => {
+    const response = await instance.delete(`/tasks/${id}`);
+    return response.data;
+  };
+}
