@@ -12,7 +12,7 @@ const Add: FC<TComponentProps> = ({ hideModal }) => {
   const formik = useFormik({
     initialValues: { title: '', description: '', created: '' },
     onSubmit: async (values: TNewTask) => {
-      const newTask: TTask = { ...values, id: _.uniqueId() };
+      const newTask = { ...values, id: _.uniqueId() } as TTask;
       await addTask(newTask);
       hideModal();
     }
