@@ -15,11 +15,9 @@ type ACTIONTYPE = {
 
 function tasksReducer(tasks: TTask[], action: ACTIONTYPE) {
   switch (action.type) {
-
     case 'added': {
       return [...tasks, action.task];
     }
-
     case 'changed': {
       return tasks.map((t: TTask) => {
         if (t.id === action.task.id) {
@@ -29,11 +27,9 @@ function tasksReducer(tasks: TTask[], action: ACTIONTYPE) {
         }
       });
     }
-
     case 'deleted': {
       return tasks.filter(t => t.id !== action.task.id);
     }
-
     default: {
       throw Error('Unknown action: ' + action.type);
     }

@@ -19,7 +19,7 @@ const Remove: FC<TComponentProps> = ({ modal, hideModal }) => {
       <Modal.Header hideModal={hideModal}>Remove Task</Modal.Header>
       <Modal.Footer>
         <form onSubmit={onSubmit}>
-            <Button className="btn btn--primary" type="submit">Remove</Button>
+          <Button className="btn btn--primary" type="submit">Remove</Button>
         </form>
       </Modal.Footer>
     </Modal>
